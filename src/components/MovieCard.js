@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles.css";
 
-export default function MovieCard({ movie }) {
+export default function MovieCard({ movie, isWatchListed, toggleWatchList }) {
   const imageNotFoundError = (e) => {
     e.target.src = "images/default.jpg";
   };
@@ -17,20 +17,32 @@ export default function MovieCard({ movie }) {
   };
 
   return (
-    <div>
-      <div key={movie.id} className="movie-card">
-        <img
-          src={`images/${movie.image}`}
-          alt={movie.title}
-          onError={imageNotFoundError}
-        />
-        <div className="movie-card-info">
-          <h3 className="movie-card-title">{movie.title}</h3>
-          <p className="movie-card-genre">{movie.genre}</p>
-          <p className={`movie-card-rating ${getRatingClass(movie.rating)}`}>
+    <div key={movie.id} className="movie-card">
+      <img
+        src={`images/${movie.image}`}
+        alt={movie.title}
+        onError={imageNotFoundError}
+      />
+      <div className="movie-card-info">
+        <h3 className="movie-card-title">{movie.title}</h3>
+        <div>
+          <span className="movie-card-genre">{movie.genre}</span>
+          <span className={`movie-card-rating ${getRatingClass(movie.rating)}`}>
             {movie.rating}
-          </p>
+          </span>
         </div>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={isWatchListed}
+            onChange={() => toggleWatchList(movie.id)}
+          />
+          <span className="slider">
+            <span className="slider-label">
+              {isWatchListed ? "In WatchList" : "Add to WatchList"}
+            </span>
+          </span>
+        </label>
       </div>
     </div>
   );
